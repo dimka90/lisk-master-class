@@ -1,0 +1,3 @@
+[submodule "Stalking-Pool/lib/forge-std"]
+	path = Stalking-Pool/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
