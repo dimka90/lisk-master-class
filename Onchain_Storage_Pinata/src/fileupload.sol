@@ -4,7 +4,8 @@ pragma solidity ^0.8.26;
 
 contract UploadImage{
 
-address owner;
+
+address public owner;
 event Upload(string, address,uint);
 struct Image{
     string imageName;
@@ -32,6 +33,9 @@ images.push(
     }));
     emit Upload(_name,msg.sender,block.timestamp);
 }
+constructor (){
+    owner =msg.sender;
+}
 
 function getImage(uint index)  external  view returns(Image memory){
     require(index<images.length,"Index not in array");
@@ -49,5 +53,9 @@ function getImageCid(uint index) external view returns (string memory){
 function getAllImages() external view returns(Image[] memory){
 return images;
 }
+// function getOwner() external returns(address)
+// {
+//     return owner;
 
+// }
 }

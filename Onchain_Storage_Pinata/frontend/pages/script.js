@@ -1,6 +1,6 @@
 
 
-const JWT_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJjMTg5ZWQ3MC1jYjczLTRhMjItYmIxNS01NDlkNDMyZDBkMWEiLCJlbWFpbCI6ImRpbWtheWlscml0QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6IkZSQTEifSx7ImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxLCJpZCI6Ik5ZQzEifV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiIyNzliMThiYmY1YzY2NTI0NGYzNSIsInNjb3BlZEtleVNlY3JldCI6IjQyMTM5NDI5YzU1ZTQxMzBjOGZkYjQ1NTExZDZjOGM0MmNjOGU2MTY1NWI1NDA1OTEyYzk3NjUxNmNhOTkwMTIiLCJleHAiOjE3NjI2NTcwOTZ9.PvmZyzkjec8u34z1rFKqPoZJhKL7Wk66x5-BUvC7Pj8";
+const JWT_TOKEN = "INPUT TOKEN HERE";
 export async function fileUpload(){
 
 const config = "";
@@ -24,9 +24,20 @@ console.log(fileObject.files[0]);
     });
     const response = await request.json();
     console.log(response);
-    console.log(response.data.data.cid);
+    const imageCid = response.data.cid;
+    const ImageName = response.data.cid;
 
-  } catch (error) {
+    if (window.ethereum) {
+      try {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+      }
+      catch(error){
+        console.log("error");
+      }
+  }
+
+   } catch (error) {
     console.log(error);
   }
 
