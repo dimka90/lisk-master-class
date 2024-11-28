@@ -3,20 +3,16 @@ pragma solidity ^0.8.26;
 
 import './Erc20.sol';
 
-contract Stalking {
+contract Staking {
 address owner;
 
 Erc20 public erc20;
 
-constructor(address tokenaddress)
-{
-    owner = msg.sender;
-    erc20 = Erc20(tokenaddress);
-}
+
 event CreatePool(string indexed poolName,uint indexed Reward);
     modifier onlyOwner
     {
-        require(msg.sender == owner);
+        require(msg.sender == owner, "Only Owner can modify");
         _;
     }
 
@@ -30,14 +26,21 @@ event CreatePool(string indexed poolName,uint indexed Reward);
     uint poolcount;
 
     struct Staker{
-
-        address owner;
         uint duration;
         uint amount;
+        uint[] poolId;
     }
     Pool[] public pools;
     // users data for a single user that stake in a pool
-    mapping(uint =>Staker) public stakers;
+    // mapping( uint => Staker) public stakers;
+    mapping(address => Staker) public stakers;
+
+
+    constructor(address tokenaddress)
+{
+    owner = msg.sender;
+    erc20 = Erc20(tokenaddress);
+}
 
     function createPool(
         string memory _poolname,
@@ -61,15 +64,12 @@ event CreatePool(string indexed poolName,uint indexed Reward);
         require(pools[poolId].poolReward >0 , "Pools doe not exit");
 
         pools[poolId].totalstaked +=  _amount;
-
-        // call the erc20 token transferFrom
-        erc20.transferFrom(address(this), _amount);
-        // emit erc20.Transfer(msg.sender, address(this), _amount);
+         erc20.transfer(msg.sender, address(this), _amount);
         // store user information
-        stakers[poolId] = Staker({
-            owner:msg.sender,
+        stakers[msg.sender] = Staker({
             duration: _duration,
-            amount: _amount
+            amount: _amount,
+            poolId: new uint[](poolId)
         });
 
         return true;
@@ -78,10 +78,13 @@ event CreatePool(string indexed poolName,uint indexed Reward);
 function unstake(uint poolId) external returns (bool){
 
 require(pools[poolId].poolReward > 0, "Pool does not exist");
-require(stakers[poolId].amount>0, "You are poor");
-erc20.transfer(address(this), msg.sender, stakers[poolId].amount);
+require(stakers[msg.sender].amount>0, "You are poor");
+erc20.transfer(address(this), msg.sender, stakers[msg.sender].amount);
+erc20.addBalance(pools[poolId].poolReward);
 
-// erc20.emit Transfer(address(this), msg.sender, stakers[poolId].amount);
+emit Erc20.Transfer (address(this), msg.sender, stakers[msg.sender].amount);
+
+
 
 return true;
 }
