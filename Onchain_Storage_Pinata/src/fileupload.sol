@@ -53,9 +53,18 @@ function getImageCid(uint index) external view returns (string memory){
 function getAllImages() external view returns(Image[] memory){
 return images;
 }
-// function getOwner() external returns(address)
-// {
-//     return owner;
+function getOwner() external view  returns(address)
+{
+    return owner;
 
-// }
 }
+}
+
+
+
+
+// - Integrating gelato relay for gasless transactions
+// - ⁠integrating gelato vrf for verified source of randomness 
+// - ⁠integrating safe for account abstraction for smooth user onboarding
+
+
