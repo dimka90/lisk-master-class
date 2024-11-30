@@ -1,3 +1,6 @@
 [submodule "Stalking-Pool/lib/forge-std"]
 	path = Stalking-Pool/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "onchainNFT/lib/forge-std"]
+	path = onchainNFT/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
